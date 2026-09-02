@@ -13,9 +13,20 @@ if (menuBtn && nav) {
 
         const aberto = nav.classList.contains("open");
 
-        menuBtn.setAttribute("aria-expanded", aberto);
+        menuBtn.setAttribute(
+            "aria-expanded",
+            aberto
+        );
 
-        menuBtn.textContent = aberto ? "×" : "☰";
+        menuBtn.setAttribute(
+            "aria-label",
+            aberto
+                ? "Fechar menu"
+                : "Abrir menu"
+        );
+
+        menuBtn.textContent =
+            aberto ? "×" : "☰";
 
     });
 
@@ -23,7 +34,7 @@ if (menuBtn && nav) {
 
 
 /* =====================================================
-   FECHAR MENU AO CLICAR EM UM LINK
+   FECHAR MENU
 ===================================================== */
 
 const menuLinks = document.querySelectorAll(".nav a");
@@ -37,8 +48,19 @@ menuLinks.forEach(link => {
         }
 
         if (menuBtn) {
+
             menuBtn.textContent = "☰";
-            menuBtn.setAttribute("aria-expanded", "false");
+
+            menuBtn.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            menuBtn.setAttribute(
+                "aria-label",
+                "Abrir menu"
+            );
+
         }
 
     });
@@ -47,67 +69,82 @@ menuLinks.forEach(link => {
 
 
 /* =====================================================
-   ANIMAÇÃO AO ROLAR A PÁGINA
+   REVEAL
 ===================================================== */
 
-const revealElements = document.querySelectorAll(".reveal");
+const revealElements =
+    document.querySelectorAll(".reveal");
 
 if ("IntersectionObserver" in window) {
 
-    const observer = new IntersectionObserver(
+    const observer =
+        new IntersectionObserver(
 
-        entries => {
+            entries => {
 
-            entries.forEach(entry => {
+                entries.forEach(entry => {
 
-                if (entry.isIntersecting) {
+                    if (entry.isIntersecting) {
 
-                    entry.target.classList.add("show");
+                        entry.target.classList.add("show");
 
-                    observer.unobserve(entry.target);
+                        observer.unobserve(
+                            entry.target
+                        );
 
-                }
+                    }
 
-            });
+                });
 
-        },
+            },
 
-        {
-            threshold: 0.12
-        }
+            {
+                threshold: 0.12
+            }
 
-    );
+        );
 
     revealElements.forEach(element => {
+
         observer.observe(element);
+
     });
 
 } else {
 
     revealElements.forEach(element => {
+
         element.classList.add("show");
+
     });
 
 }
 
 
 /* =====================================================
-   EFEITO DE LUZ DO MOUSE
+   CURSOR GLOW
 ===================================================== */
 
-const glow = document.querySelector(".cursor-glow");
+const glow =
+    document.querySelector(".cursor-glow");
 
 if (
     glow &&
     window.matchMedia("(hover: hover)").matches
 ) {
 
-    window.addEventListener("mousemove", event => {
+    window.addEventListener(
+        "mousemove",
+        event => {
 
-        glow.style.left = `${event.clientX}px`;
-        glow.style.top = `${event.clientY}px`;
+            glow.style.left =
+                `${event.clientX}px`;
 
-    });
+            glow.style.top =
+                `${event.clientY}px`;
+
+        }
+    );
 
 }
 
@@ -116,32 +153,40 @@ if (
    ROLAGEM SUAVE
 ===================================================== */
 
-const anchors = document.querySelectorAll('a[href^="#"]');
+const anchors =
+    document.querySelectorAll(
+        'a[href^="#"]'
+    );
 
 anchors.forEach(anchor => {
 
-    anchor.addEventListener("click", function(event) {
+    anchor.addEventListener(
+        "click",
+        function(event) {
 
-        const id = this.getAttribute("href");
+            const id =
+                this.getAttribute("href");
 
-        if (!id || id === "#") {
-            return;
+            if (!id || id === "#") {
+                return;
+            }
+
+            const target =
+                document.querySelector(id);
+
+            if (target) {
+
+                event.preventDefault();
+
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            }
+
         }
-
-        const target = document.querySelector(id);
-
-        if (target) {
-
-            event.preventDefault();
-
-            target.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-
-        }
-
-    });
+    );
 
 });
 
@@ -150,36 +195,52 @@ anchors.forEach(anchor => {
    ANIMAÇÃO INICIAL
 ===================================================== */
 
-window.addEventListener("load", () => {
+window.addEventListener(
+    "load",
+    () => {
 
-    setTimeout(() => {
+        setTimeout(() => {
 
-        revealElements.forEach(element => {
-            element.classList.add("show");
-        });
+            revealElements.forEach(
+                element => {
 
-    }, 150);
+                    element.classList.add(
+                        "show"
+                    );
 
-});
+                }
+            );
+
+        }, 200);
+
+    }
+);
 
 
 /* =====================================================
-   FECHAR MENU AO AUMENTAR A TELA
+   RESET MENU AO REDIMENSIONAR
 ===================================================== */
 
-window.addEventListener("resize", () => {
+window.addEventListener(
+    "resize",
+    () => {
 
-    if (window.innerWidth > 768) {
+        if (
+            window.innerWidth > 768 &&
+            nav &&
+            menuBtn
+        ) {
 
-        if (nav) {
             nav.classList.remove("open");
-        }
 
-        if (menuBtn) {
             menuBtn.textContent = "☰";
-            menuBtn.setAttribute("aria-expanded", "false");
+
+            menuBtn.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
         }
 
     }
-
-});
+);
