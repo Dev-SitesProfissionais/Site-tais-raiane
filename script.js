@@ -2,12 +2,8 @@
    MENU MOBILE
 ===================================================== */
 
-const menuBtn =
-    document.getElementById("menuBtn");
-
-const nav =
-    document.getElementById("nav");
-
+const menuBtn = document.getElementById("menuBtn");
+const nav = document.getElementById("nav");
 
 if (menuBtn && nav) {
 
@@ -15,16 +11,11 @@ if (menuBtn && nav) {
 
         nav.classList.toggle("open");
 
-        const aberto =
-            nav.classList.contains("open");
+        const aberto = nav.classList.contains("open");
 
-        menuBtn.setAttribute(
-            "aria-expanded",
-            aberto
-        );
+        menuBtn.setAttribute("aria-expanded", aberto);
 
-        menuBtn.textContent =
-            aberto ? "×" : "☰";
+        menuBtn.textContent = aberto ? "×" : "☰";
 
     });
 
@@ -32,25 +23,23 @@ if (menuBtn && nav) {
 
 
 /* =====================================================
-   FECHAR MENU AO CLICAR
+   FECHAR MENU AO CLICAR EM UM LINK
 ===================================================== */
 
-const menuLinks =
-    document.querySelectorAll(".nav a");
-
+const menuLinks = document.querySelectorAll(".nav a");
 
 menuLinks.forEach(link => {
 
     link.addEventListener("click", () => {
 
-        nav.classList.remove("open");
+        if (nav) {
+            nav.classList.remove("open");
+        }
 
-        menuBtn.textContent = "☰";
-
-        menuBtn.setAttribute(
-            "aria-expanded",
-            "false"
-        );
+        if (menuBtn) {
+            menuBtn.textContent = "☰";
+            menuBtn.setAttribute("aria-expanded", "false");
+        }
 
     });
 
@@ -58,75 +47,65 @@ menuLinks.forEach(link => {
 
 
 /* =====================================================
-   ANIMAÇÃO AO ROLAR
+   ANIMAÇÃO AO ROLAR A PÁGINA
 ===================================================== */
 
-const revealElements =
-    document.querySelectorAll(".reveal");
-
+const revealElements = document.querySelectorAll(".reveal");
 
 if ("IntersectionObserver" in window) {
 
-    const observer =
-        new IntersectionObserver(
+    const observer = new IntersectionObserver(
 
-            entries => {
+        entries => {
 
-                entries.forEach(entry => {
+            entries.forEach(entry => {
 
-                    if (entry.isIntersecting) {
+                if (entry.isIntersecting) {
 
-                        entry.target
-                            .classList
-                            .add("show");
+                    entry.target.classList.add("show");
 
-                    }
+                    observer.unobserve(entry.target);
 
-                });
+                }
 
-            },
+            });
 
-            {
-                threshold: 0.12
-            }
+        },
 
-        );
+        {
+            threshold: 0.12
+        }
 
+    );
 
     revealElements.forEach(element => {
-
         observer.observe(element);
-
     });
 
 } else {
 
     revealElements.forEach(element => {
-
         element.classList.add("show");
-
     });
 
 }
 
 
 /* =====================================================
-   EFEITO DO MOUSE
+   EFEITO DE LUZ DO MOUSE
 ===================================================== */
 
-const glow =
-    document.querySelector(".cursor-glow");
+const glow = document.querySelector(".cursor-glow");
 
-
-if (glow && window.matchMedia("(hover: hover)").matches) {
+if (
+    glow &&
+    window.matchMedia("(hover: hover)").matches
+) {
 
     window.addEventListener("mousemove", event => {
 
-        glow.style.left =
-            `${event.clientX}px`;
-
-        glow.style.top =
-            `${event.clientY}px`;
+        glow.style.left = `${event.clientX}px`;
+        glow.style.top = `${event.clientY}px`;
 
     });
 
@@ -137,55 +116,38 @@ if (glow && window.matchMedia("(hover: hover)").matches) {
    ROLAGEM SUAVE
 ===================================================== */
 
-const anchors =
-    document.querySelectorAll(
-        'a[href^="#"]'
-    );
-
+const anchors = document.querySelectorAll('a[href^="#"]');
 
 anchors.forEach(anchor => {
 
-    anchor.addEventListener(
-        "click",
-        function(event) {
+    anchor.addEventListener("click", function(event) {
 
-            const id =
-                this.getAttribute("href");
+        const id = this.getAttribute("href");
 
-            if (!id || id === "#") {
+        if (!id || id === "#") {
+            return;
+        }
 
-                return;
+        const target = document.querySelector(id);
 
-            }
+        if (target) {
 
+            event.preventDefault();
 
-            const target =
-                document.querySelector(id);
-
-
-            if (target) {
-
-                event.preventDefault();
-
-
-                target.scrollIntoView({
-
-                    behavior: "smooth",
-
-                    block: "start"
-
-                });
-
-            }
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
 
         }
-    );
+
+    });
 
 });
 
 
 /* =====================================================
-   GARANTIR ANIMAÇÃO INICIAL
+   ANIMAÇÃO INICIAL
 ===================================================== */
 
 window.addEventListener("load", () => {
@@ -193,9 +155,7 @@ window.addEventListener("load", () => {
     setTimeout(() => {
 
         revealElements.forEach(element => {
-
             element.classList.add("show");
-
         });
 
     }, 150);
@@ -211,9 +171,14 @@ window.addEventListener("resize", () => {
 
     if (window.innerWidth > 768) {
 
-        nav.classList.remove("open");
+        if (nav) {
+            nav.classList.remove("open");
+        }
 
-        menuBtn.textContent = "☰";
+        if (menuBtn) {
+            menuBtn.textContent = "☰";
+            menuBtn.setAttribute("aria-expanded", "false");
+        }
 
     }
 
