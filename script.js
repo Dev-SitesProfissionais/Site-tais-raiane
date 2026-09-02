@@ -1,6 +1,11 @@
-/* =====================================================
+/* =========================================================
+   TAIS RAIANE — JAVASCRIPT
+========================================================= */
+
+
+/* =========================================================
    MENU MOBILE
-===================================================== */
+========================================================= */
 
 const menuBtn = document.getElementById("menuBtn");
 const nav = document.getElementById("nav");
@@ -13,29 +18,18 @@ if (menuBtn && nav) {
 
         const aberto = nav.classList.contains("open");
 
-        menuBtn.setAttribute(
-            "aria-expanded",
-            aberto
-        );
+        menuBtn.setAttribute("aria-expanded", aberto);
 
-        menuBtn.setAttribute(
-            "aria-label",
-            aberto
-                ? "Fechar menu"
-                : "Abrir menu"
-        );
-
-        menuBtn.textContent =
-            aberto ? "×" : "☰";
+        menuBtn.textContent = aberto ? "×" : "☰";
 
     });
 
 }
 
 
-/* =====================================================
-   FECHAR MENU
-===================================================== */
+/* =========================================================
+   FECHAR MENU AO CLICAR
+========================================================= */
 
 const menuLinks = document.querySelectorAll(".nav a");
 
@@ -56,11 +50,6 @@ menuLinks.forEach(link => {
                 "false"
             );
 
-            menuBtn.setAttribute(
-                "aria-label",
-                "Abrir menu"
-            );
-
         }
 
     });
@@ -68,18 +57,18 @@ menuLinks.forEach(link => {
 });
 
 
-/* =====================================================
-   REVEAL
-===================================================== */
+/* =========================================================
+   ANIMAÇÃO DOS ELEMENTOS
+========================================================= */
 
 const revealElements =
     document.querySelectorAll(".reveal");
+
 
 if ("IntersectionObserver" in window) {
 
     const observer =
         new IntersectionObserver(
-
             entries => {
 
                 entries.forEach(entry => {
@@ -97,12 +86,11 @@ if ("IntersectionObserver" in window) {
                 });
 
             },
-
             {
                 threshold: 0.12
             }
-
         );
+
 
     revealElements.forEach(element => {
 
@@ -121,12 +109,13 @@ if ("IntersectionObserver" in window) {
 }
 
 
-/* =====================================================
-   CURSOR GLOW
-===================================================== */
+/* =========================================================
+   CURSOR ROXO
+========================================================= */
 
 const glow =
     document.querySelector(".cursor-glow");
+
 
 if (
     glow &&
@@ -149,20 +138,21 @@ if (
 }
 
 
-/* =====================================================
-   ROLAGEM SUAVE
-===================================================== */
+/* =========================================================
+   SCROLL SUAVE
+========================================================= */
 
 const anchors =
     document.querySelectorAll(
         'a[href^="#"]'
     );
 
+
 anchors.forEach(anchor => {
 
     anchor.addEventListener(
         "click",
-        function(event) {
+        function (event) {
 
             const id =
                 this.getAttribute("href");
@@ -191,9 +181,9 @@ anchors.forEach(anchor => {
 });
 
 
-/* =====================================================
-   ANIMAÇÃO INICIAL
-===================================================== */
+/* =========================================================
+   GARANTE QUE O CONTEÚDO APAREÇA
+========================================================= */
 
 window.addEventListener(
     "load",
@@ -204,41 +194,43 @@ window.addEventListener(
             revealElements.forEach(
                 element => {
 
-                    element.classList.add(
-                        "show"
-                    );
+                    element.classList.add("show");
 
                 }
             );
 
-        }, 200);
+        }, 150);
 
     }
 );
 
 
-/* =====================================================
-   RESET MENU AO REDIMENSIONAR
-===================================================== */
+/* =========================================================
+   RESET DO MENU AO AUMENTAR A TELA
+========================================================= */
 
 window.addEventListener(
     "resize",
     () => {
 
-        if (
-            window.innerWidth > 768 &&
-            nav &&
-            menuBtn
-        ) {
+        if (window.innerWidth > 768) {
 
-            nav.classList.remove("open");
+            if (nav) {
 
-            menuBtn.textContent = "☰";
+                nav.classList.remove("open");
 
-            menuBtn.setAttribute(
-                "aria-expanded",
-                "false"
-            );
+            }
+
+            if (menuBtn) {
+
+                menuBtn.textContent = "☰";
+
+                menuBtn.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            }
 
         }
 
