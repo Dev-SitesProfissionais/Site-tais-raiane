@@ -1,6 +1,6 @@
-/* =========================================================
-   MENU MOBILE
-========================================================= */
+// ==========================================
+// MENU MOBILE
+// ==========================================
 
 const menuBtn = document.getElementById("menuBtn");
 const nav = document.getElementById("nav");
@@ -13,23 +13,18 @@ if (menuBtn && nav) {
 
         const aberto = nav.classList.contains("open");
 
-        menuBtn.setAttribute(
-            "aria-expanded",
-            aberto
-        );
+        menuBtn.setAttribute("aria-expanded", aberto);
 
-        menuBtn.textContent = aberto
-            ? "×"
-            : "☰";
+        menuBtn.textContent = aberto ? "×" : "☰";
 
     });
 
 }
 
 
-/* =========================================================
-   FECHAR MENU AO CLICAR
-========================================================= */
+// ==========================================
+// FECHAR MENU AO CLICAR
+// ==========================================
 
 const menuLinks = document.querySelectorAll(".nav a");
 
@@ -57,17 +52,19 @@ menuLinks.forEach(link => {
 });
 
 
-/* =========================================================
-   ANIMAÇÃO AO APARECER
-========================================================= */
+// ==========================================
+// ANIMAÇÃO DOS ELEMENTOS
+// ==========================================
 
 const revealElements =
     document.querySelectorAll(".reveal");
+
 
 if ("IntersectionObserver" in window) {
 
     const observer =
         new IntersectionObserver(
+
             entries => {
 
                 entries.forEach(entry => {
@@ -85,10 +82,13 @@ if ("IntersectionObserver" in window) {
                 });
 
             },
+
             {
                 threshold: 0.12
             }
+
         );
+
 
     revealElements.forEach(element => {
 
@@ -107,12 +107,13 @@ if ("IntersectionObserver" in window) {
 }
 
 
-/* =========================================================
-   LUZ DO CURSOR
-========================================================= */
+// ==========================================
+// EFEITO DE LUZ DO CURSOR
+// ==========================================
 
 const glow =
     document.querySelector(".cursor-glow");
+
 
 if (
     glow &&
@@ -135,30 +136,34 @@ if (
 }
 
 
-/* =========================================================
-   SCROLL SUAVE
-========================================================= */
+// ==========================================
+// ROLAGEM SUAVE
+// ==========================================
 
 const anchors =
     document.querySelectorAll(
         'a[href^="#"]'
     );
 
+
 anchors.forEach(anchor => {
 
     anchor.addEventListener(
         "click",
-        function(event) {
+        function (event) {
 
             const id =
                 this.getAttribute("href");
+
 
             if (!id || id === "#") {
                 return;
             }
 
+
             const target =
                 document.querySelector(id);
+
 
             if (target) {
 
@@ -177,35 +182,38 @@ anchors.forEach(anchor => {
 });
 
 
-/* =========================================================
-   MOSTRAR ELEMENTOS AO CARREGAR
-========================================================= */
+// ==========================================
+// GARANTIR ANIMAÇÃO AO CARREGAR
+// ==========================================
 
 window.addEventListener(
     "load",
     () => {
 
-        setTimeout(() => {
+        setTimeout(
+            () => {
 
-            revealElements.forEach(
-                element => {
+                revealElements.forEach(
+                    element => {
 
-                    element.classList.add(
-                        "show"
-                    );
+                        element.classList.add(
+                            "show"
+                        );
 
-                }
-            );
+                    }
+                );
 
-        }, 150);
+            },
+            150
+        );
 
     }
 );
 
 
-/* =========================================================
-   RESET DO MENU AO AUMENTAR A TELA
-========================================================= */
+// ==========================================
+// AJUSTE DO MENU AO REDIMENSIONAR
+// ==========================================
 
 window.addEventListener(
     "resize",
