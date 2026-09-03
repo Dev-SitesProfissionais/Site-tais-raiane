@@ -1,9 +1,4 @@
 /* =========================================================
-   TAIS RAIANE — JAVASCRIPT
-========================================================= */
-
-
-/* =========================================================
    MENU MOBILE
 ========================================================= */
 
@@ -18,9 +13,14 @@ if (menuBtn && nav) {
 
         const aberto = nav.classList.contains("open");
 
-        menuBtn.setAttribute("aria-expanded", aberto);
+        menuBtn.setAttribute(
+            "aria-expanded",
+            aberto
+        );
 
-        menuBtn.textContent = aberto ? "×" : "☰";
+        menuBtn.textContent = aberto
+            ? "×"
+            : "☰";
 
     });
 
@@ -58,12 +58,11 @@ menuLinks.forEach(link => {
 
 
 /* =========================================================
-   ANIMAÇÃO DOS ELEMENTOS
+   ANIMAÇÃO AO APARECER
 ========================================================= */
 
 const revealElements =
     document.querySelectorAll(".reveal");
-
 
 if ("IntersectionObserver" in window) {
 
@@ -91,7 +90,6 @@ if ("IntersectionObserver" in window) {
             }
         );
 
-
     revealElements.forEach(element => {
 
         observer.observe(element);
@@ -110,12 +108,11 @@ if ("IntersectionObserver" in window) {
 
 
 /* =========================================================
-   CURSOR ROXO
+   LUZ DO CURSOR
 ========================================================= */
 
 const glow =
     document.querySelector(".cursor-glow");
-
 
 if (
     glow &&
@@ -147,12 +144,11 @@ const anchors =
         'a[href^="#"]'
     );
 
-
 anchors.forEach(anchor => {
 
     anchor.addEventListener(
         "click",
-        function (event) {
+        function(event) {
 
             const id =
                 this.getAttribute("href");
@@ -182,7 +178,7 @@ anchors.forEach(anchor => {
 
 
 /* =========================================================
-   GARANTE QUE O CONTEÚDO APAREÇA
+   MOSTRAR ELEMENTOS AO CARREGAR
 ========================================================= */
 
 window.addEventListener(
@@ -194,7 +190,9 @@ window.addEventListener(
             revealElements.forEach(
                 element => {
 
-                    element.classList.add("show");
+                    element.classList.add(
+                        "show"
+                    );
 
                 }
             );
@@ -216,9 +214,7 @@ window.addEventListener(
         if (window.innerWidth > 768) {
 
             if (nav) {
-
                 nav.classList.remove("open");
-
             }
 
             if (menuBtn) {
