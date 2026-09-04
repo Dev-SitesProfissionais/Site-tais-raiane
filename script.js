@@ -1,6 +1,6 @@
-/* =========================================================
+/* =========================================
    MENU MOBILE
-========================================================= */
+========================================= */
 
 const menuBtn = document.getElementById("menuBtn");
 const nav = document.getElementById("nav");
@@ -21,28 +21,17 @@ if (menuBtn && nav) {
 
         menuBtn.textContent =
             aberto ? "×" : "☰";
-
     });
 
-}
 
+    const links =
+        nav.querySelectorAll("a");
 
-/* =========================================================
-   FECHAR MENU AO CLICAR
-========================================================= */
+    links.forEach(link => {
 
-const menuLinks =
-    document.querySelectorAll(".nav a");
+        link.addEventListener("click", () => {
 
-menuLinks.forEach(link => {
-
-    link.addEventListener("click", () => {
-
-        if (nav) {
             nav.classList.remove("open");
-        }
-
-        if (menuBtn) {
 
             menuBtn.textContent = "☰";
 
@@ -51,66 +40,16 @@ menuLinks.forEach(link => {
                 "false"
             );
 
-        }
-
-    });
-
-});
-
-
-/* =========================================================
-   ANIMAÇÃO AO ROLAR
-========================================================= */
-
-const revealElements =
-    document.querySelectorAll(".reveal");
-
-if ("IntersectionObserver" in window) {
-
-    const observer =
-        new IntersectionObserver(
-            entries => {
-
-                entries.forEach(entry => {
-
-                    if (entry.isIntersecting) {
-
-                        entry.target.classList.add("show");
-
-                        observer.unobserve(
-                            entry.target
-                        );
-
-                    }
-
-                });
-
-            },
-            {
-                threshold: 0.12
-            }
-        );
-
-    revealElements.forEach(element => {
-
-        observer.observe(element);
-
-    });
-
-} else {
-
-    revealElements.forEach(element => {
-
-        element.classList.add("show");
+        });
 
     });
 
 }
 
 
-/* =========================================================
-   BRILHO DO MOUSE
-========================================================= */
+/* =========================================
+   EFEITO DO MOUSE
+========================================= */
 
 const glow =
     document.querySelector(".cursor-glow");
@@ -120,46 +59,41 @@ if (
     window.matchMedia("(hover: hover)").matches
 ) {
 
-    window.addEventListener(
-        "mousemove",
-        event => {
+    window.addEventListener("mousemove", event => {
 
-            glow.style.left =
-                `${event.clientX}px`;
+        glow.style.left =
+            `${event.clientX}px`;
 
-            glow.style.top =
-                `${event.clientY}px`;
+        glow.style.top =
+            `${event.clientY}px`;
 
-        }
-    );
+    });
 
 }
 
 
-/* =========================================================
+/* =========================================
    SCROLL SUAVE
-========================================================= */
+========================================= */
 
-const anchors =
-    document.querySelectorAll(
-        'a[href^="#"]'
-    );
+document
+    .querySelectorAll('a[href^="#"]')
+    .forEach(link => {
 
-anchors.forEach(anchor => {
+        link.addEventListener("click", function(event) {
 
-    anchor.addEventListener(
-        "click",
-        function(event) {
-
-            const id =
+            const targetId =
                 this.getAttribute("href");
 
-            if (!id || id === "#") {
+            if (
+                !targetId ||
+                targetId === "#"
+            ) {
                 return;
             }
 
             const target =
-                document.querySelector(id);
+                document.querySelector(targetId);
 
             if (target) {
 
@@ -172,64 +106,94 @@ anchors.forEach(anchor => {
 
             }
 
-        }
+        });
+
+    });
+
+
+/* =========================================
+   ANIMAÇÃO AO ENTRAR NA TELA
+========================================= */
+
+const elements =
+    document.querySelectorAll(
+        ".hero-content, .hero-photo, .section, .service-card, .project, .ebook, .contact-grid"
     );
 
-});
+
+if ("IntersectionObserver" in window) {
+
+    const observer =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(entry => {
+
+                    if (
+                        entry.isIntersecting
+                    ) {
+
+                        entry.target.style.opacity = "1";
+
+                        entry.target.style.transform =
+                            "translateY(0)";
+
+                        observer.unobserve(
+                            entry.target
+                        );
+
+                    }
+
+                });
+
+            },
+            {
+                threshold: 0.08
+            }
+        );
 
 
-/* =========================================================
-   GARANTE QUE AS ANIMAÇÕES APAREÇAM
-========================================================= */
+    elements.forEach(element => {
 
-window.addEventListener(
-    "load",
-    () => {
+        element.style.opacity = "0";
 
-        setTimeout(() => {
+        element.style.transform =
+            "translateY(25px)";
 
-            revealElements.forEach(
-                element => {
+        element.style.transition =
+            "opacity .8s ease, transform .8s ease";
 
-                    element.classList.add(
-                        "show"
-                    );
+        observer.observe(element);
 
-                }
+    });
+
+}
+
+
+/* =========================================
+   FECHAR MENU AO REDIMENSIONAR
+========================================= */
+
+window.addEventListener("resize", () => {
+
+    if (
+        window.innerWidth > 768 &&
+        nav
+    ) {
+
+        nav.classList.remove("open");
+
+        if (menuBtn) {
+
+            menuBtn.textContent = "☰";
+
+            menuBtn.setAttribute(
+                "aria-expanded",
+                "false"
             );
-
-        }, 150);
-
-    }
-);
-
-
-/* =========================================================
-   REDIMENSIONAMENTO
-========================================================= */
-
-window.addEventListener(
-    "resize",
-    () => {
-
-        if (window.innerWidth > 768) {
-
-            if (nav) {
-                nav.classList.remove("open");
-            }
-
-            if (menuBtn) {
-
-                menuBtn.textContent = "☰";
-
-                menuBtn.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-            }
 
         }
 
     }
-);
+
+});
